@@ -38,6 +38,7 @@ function TaskSummary({ task }) {
           </div>
           <div className="right">
             <button
+              type="button"
               className="right-icon-wrapper edit-icon"
               onClick={handleEdit}
             >
