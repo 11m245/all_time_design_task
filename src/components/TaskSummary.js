@@ -16,6 +16,12 @@ function TaskSummary({ task }) {
   const handleEdit = () => {
     setIsEdit(true);
   };
+  const markInComplete = () => {
+    console.log("incomplete marked");
+  };
+  const markComplete = () => {
+    console.log("complete marked");
+  };
   return (
     <>
       {isEdit ? (
@@ -59,7 +65,10 @@ function TaskSummary({ task }) {
               </svg>
             </button>
             {is_completed ? (
-              <button className="right-icon-wrapper unread-icon">
+              <button
+                className="right-icon-wrapper unread-icon"
+                onClick={markInComplete}
+              >
                 <svg
                   width="16"
                   height="16"
@@ -95,7 +104,10 @@ function TaskSummary({ task }) {
                     </g>
                   </svg>
                 </button>
-                <button className="right-icon-wrapper tick-icon">
+                <button
+                  className="right-icon-wrapper tick-icon"
+                  onClick={markComplete}
+                >
                   <svg
                     width="16"
                     height="16"
