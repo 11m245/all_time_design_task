@@ -1,34 +1,127 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { TaskSummary } from "./components/TaskSummary";
 import { AddTask } from "./components/AddTask";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [getTasks, setGetTasks] = useState(false);
+  const [users, setUsers] = useState([]);
   const [show, setShow] = useState("taskSummary");
-  const tasks = [
-    {
-      id: "id1",
-      assigned_user: "user1",
-      task_date: "2023-07-04",
-      task_time: 79560,
-      is_completed: 0,
-      time_zone: 19800,
-      task_msg: "task description 1",
-    },
-    {
-      id: "id2",
-      assigned_user: "user1",
-      task_date: "2023-07-03",
-      task_time: 78560,
-      is_completed: 1,
-      time_zone: 19800,
-      task_msg: "task description 2",
-    },
-  ];
+  const [tasks, setTasks] = useState([]);
+  // const tasks = [
+  //   {
+  //     id: "id1",
+  //     assigned_user: "user1",
+  //     task_date: "2023-07-04",
+  //     task_time: 79560,
+  //     is_completed: 0,
+  //     time_zone: 19800,
+  //     task_msg: "task description 1",
+  //   },
+  //   {
+  //     id: "id2",
+  //     assigned_user: "user1",
+  //     task_date: "2023-07-03",
+  //     task_time: 78560,
+  //     is_completed: 1,
+  //     time_zone: 19800,
+  //     task_msg: "task description 2",
+  //   },
+  // ];
 
   const handleAddTask = () => {
     setShow("addTask");
   };
+  const handleLogin = async () => {
+    const login_url = "https://stage.api.sloovi.com/login?product=outreach";
+    const credentials = {
+      email: "smithwills1989@gmail.com",
+      password: "12345678",
+    };
+    const loginResponse = await fetch(login_url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
+    if (loginResponse.status === 200) {
+      const data = await loginResponse.json();
+      localStorage.setItem("token", data.results.token);
+      localStorage.setItem("company_id", data.results.company_id);
+      localStorage.setItem("user_id", data.results.user_id);
+      setIsLoggedIn(true);
+    } else {
+      alert("unable to login");
+    }
+  };
+
+  const fetchUsers = async () => {
+    const fetch_users_url = `https://stage.api.sloovi.com/team?product=outreach&company_id=${localStorage.getItem(
+      "company_id"
+    )}`;
+
+    const usersResponse = await fetch(fetch_users_url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (usersResponse.status === 200) {
+      const data = await usersResponse.json();
+      setUsers(data.results.data);
+      console.log("users data", data.results.data);
+    } else {
+      alert("unable to fetch users");
+    }
+  };
+  const fetchTasks = async () => {
+    const fetch_tasks_url = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2?company_id=${localStorage.getItem(
+      "company_id"
+    )}`;
+
+    const tasksResponse = await fetch(fetch_tasks_url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (tasksResponse.status === 200) {
+      const data = await tasksResponse.json();
+      setTasks(data.results);
+      console.log("tasks data", data.results);
+    } else {
+      alert("unable to fetch tasks");
+    }
+  };
+
+  useEffect(() => {
+    handleLogin();
+    return () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("company_id");
+      localStorage.removeItem("user_id");
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchUsers();
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchTasks();
+    }
+  }, [isLoggedIn, getTasks]);
+
   return (
     <div className="App">
       <aside></aside>
@@ -70,9 +163,11 @@ function App() {
         </section>
         <section className="tasks-body">
           {show === "taskSummary" ? (
-            tasks.map((task) => <TaskSummary key={task.id} task={task} />)
+            tasks.map((task) => (
+              <TaskSummary users={users} key={task.id} task={task} />
+            ))
           ) : (
-            <AddTask setShow={setShow} />
+            <AddTask setShow={setShow} users={users} />
           )}
         </section>
       </main>

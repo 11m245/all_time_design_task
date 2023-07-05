@@ -1,7 +1,8 @@
 import { useFormik } from "formik";
+import { useState } from "react";
 import * as yup from "yup";
 
-function EditTask({ task, isEdit, setIsEdit }) {
+function EditTask({ users, task, isEdit, setIsEdit }) {
   const {
     id,
     assigned_user,
@@ -13,15 +14,21 @@ function EditTask({ task, isEdit, setIsEdit }) {
   } = task;
   return (
     <>
-      <div className="add-task-wrapper">
-        <EditTaskForm task={task} isEdit={isEdit} setIsEdit={setIsEdit} />
+      <div className="edit-task-wrapper">
+        <EditTaskForm
+          users={users}
+          task={task}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+        />
       </div>
     </>
   );
 }
 
-function EditTaskForm({ task, isEdit, setIsEdit }) {
+function EditTaskForm({ users, task, isEdit, setIsEdit }) {
   const {
+    id,
     assigned_user,
     task_date,
     task_time,
@@ -29,10 +36,11 @@ function EditTaskForm({ task, isEdit, setIsEdit }) {
     time_zone,
     task_msg,
   } = task;
-  const users = [
-    { name: "user1", id: 1 },
-    { name: "user2", id: 2 },
-  ];
+  // const users = [
+  //   { name: "user1", id: 1 },
+  //   { name: "user2", id: 2 },
+  // ];
+  const [assUser, setAssUser] = useState(assigned_user);
   const get24hrString = (seconds) => {
     const hr = parseInt(seconds / 3600);
     const min = parseInt((seconds - hr * 3600) / 60);
@@ -52,7 +60,7 @@ function EditTaskForm({ task, isEdit, setIsEdit }) {
     a_user: yup.string().required("Required"),
   });
 
-  const { handleBlur, handleChange, handleSubmit, values, errors } = useFormik({
+  const { handleChange, handleSubmit, values } = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
@@ -64,7 +72,9 @@ function EditTaskForm({ task, isEdit, setIsEdit }) {
 
   const handleSelectChange = (e) => {
     values.a_user = e.target.value;
+    setAssUser(e.target.value);
     console.log("selected user val is", e.target.value);
+    console.log("select val is", values.a_user);
   };
 
   const handleDeleteTask = (taskId) => {
@@ -119,8 +129,10 @@ function EditTaskForm({ task, isEdit, setIsEdit }) {
             name="a_user"
             id="a_user"
             onChange={handleSelectChange}
-            value={values.a_user}
-            required
+            values={assUser}
+            // value={values.a_user}
+            // value={"user_8c2ff2128e70493fa4cedd2cab97c492"}
+            // required
           >
             {users.map((user) => (
               <option key={user.id} value={user.id}>

@@ -204,6 +204,9 @@ border-bottom: 1px solid #E5E5E5;
 .add-task-wrapper{
   padding: 10px;
 }
+.edit-task-wrapper {
+  padding: 10px;
+}
 
 .input-field-wrapper{
   max-width: 345px;

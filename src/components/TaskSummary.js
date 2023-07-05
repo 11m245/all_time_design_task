@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { EditTask } from "./EditTask";
 
-function TaskSummary({ task }) {
+function TaskSummary({ task, users }) {
   const [isEdit, setIsEdit] = useState(false);
   const {
     id,
@@ -17,15 +17,20 @@ function TaskSummary({ task }) {
     setIsEdit(true);
   };
   const markInComplete = () => {
-    console.log("incomplete marked");
+    console.log("incomplete marked", id);
   };
   const markComplete = () => {
-    console.log("complete marked");
+    console.log("complete marked", id);
   };
   return (
     <>
       {isEdit ? (
-        <EditTask task={task} isEdit={isEdit} setIsEdit={setIsEdit} />
+        <EditTask
+          users={users}
+          task={task}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+        />
       ) : (
         <div className="task-summary-wrapper">
           <div className="left">

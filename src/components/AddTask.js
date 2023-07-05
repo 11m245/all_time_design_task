@@ -1,22 +1,24 @@
 import { useFormik } from "formik";
+import { useState } from "react";
 import * as yup from "yup";
 
-function AddTask({ setShow }) {
+function AddTask({ setShow, users }) {
   return (
     <>
       <div className="add-task-wrapper">
-        <AddTaskForm setShow={setShow} />
+        <AddTaskForm setShow={setShow} users={users} />
       </div>
     </>
   );
 }
 
-function AddTaskForm({ setShow }) {
-  const users = [
-    { name: "user1", id: 1 },
-    { name: "user2", id: 2 },
-  ];
+function AddTaskForm({ setShow, users }) {
+  // const users = [
+  //   { name: "user1", id: 1 },
+  //   { name: "user2", id: 2 },
+  // ];
   const initialValues = { tdes: "", date: "", time: "", a_user: "" };
+  const [assUser, setAssUser] = useState("");
   const validationSchema = yup.object({
     tdes: yup.string().required("Required"),
     date: yup.string().required("Required"),
@@ -24,13 +26,13 @@ function AddTaskForm({ setShow }) {
     a_user: yup.string().required("Required"),
   });
 
-  const { handleBlur, handleChange, handleSubmit, values, errors } = useFormik({
+  const { handleChange, handleSubmit, values } = useFormik({
     initialValues,
     validationSchema,
     onSubmit: () => {
       console.log("time", values.time);
       values.time = setSeconds(values.time);
-      console.log("form values", values);
+      console.log("add task form values", values);
       setShow("taskSummary");
     },
   });
@@ -42,6 +44,7 @@ function AddTaskForm({ setShow }) {
 
   const handleSelectChange = (e) => {
     values.a_user = e.target.value;
+    setAssUser(e.target.value);
     console.log("selected user val is", e.target.value);
   };
   return (
@@ -92,7 +95,8 @@ function AddTaskForm({ setShow }) {
             name="a_user"
             id="a_user"
             onChange={handleSelectChange}
-            value={values.a_user}
+            values={assUser}
+            // value={values.a_user}
             required
           >
             {users.map((user) => (
