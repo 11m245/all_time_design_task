@@ -23,7 +23,7 @@ main{
   /* scrollbar-color: red; */
 }
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
