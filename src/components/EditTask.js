@@ -2,16 +2,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import * as yup from "yup";
 
-function EditTask({ users, task, isEdit, setIsEdit }) {
-  const {
-    id,
-    assigned_user,
-    task_date,
-    task_time,
-    is_completed,
-    time_zone,
-    task_msg,
-  } = task;
+function EditTask({ users, task, isEdit, setIsEdit, getTasks, setGetTasks }) {
   return (
     <>
       <div className="edit-task-wrapper">
@@ -20,26 +11,24 @@ function EditTask({ users, task, isEdit, setIsEdit }) {
           task={task}
           isEdit={isEdit}
           setIsEdit={setIsEdit}
+          getTasks={getTasks}
+          setGetTasks={setGetTasks}
         />
       </div>
     </>
   );
 }
 
-function EditTaskForm({ users, task, isEdit, setIsEdit }) {
-  const {
-    id,
-    assigned_user,
-    task_date,
-    task_time,
-    is_completed,
-    time_zone,
-    task_msg,
-  } = task;
-  // const users = [
-  //   { name: "user1", id: 1 },
-  //   { name: "user2", id: 2 },
-  // ];
+function EditTaskForm({
+  users,
+  task,
+  isEdit,
+  setIsEdit,
+  getTasks,
+  setGetTasks,
+}) {
+  const { assigned_user, task_date, task_time, task_msg } = task;
+
   const [assUser, setAssUser] = useState(assigned_user);
   const get24hrString = (seconds) => {
     const hr = parseInt(seconds / 3600);
@@ -57,7 +46,7 @@ function EditTaskForm({ users, task, isEdit, setIsEdit }) {
     tdes: yup.string().required("Required"),
     date: yup.string().required("Required"),
     time: yup.string().required("Required"),
-    a_user: yup.string().required("Required"),
+    a_user: yup.string(),
   });
 
   const { handleChange, handleSubmit, values } = useFormik({
@@ -65,20 +54,77 @@ function EditTaskForm({ users, task, isEdit, setIsEdit }) {
     validationSchema,
     enableReinitialize: true,
     onSubmit: () => {
-      console.log("form values", values);
-      setIsEdit(false);
+      // console.log("edit form values", values);
+      editExistingTask(values, task);
     },
   });
+  const setSeconds = (str) => {
+    const [hour, min] = str.split(":");
+    return parseInt(hour) * 60 * 60 + parseInt(min) * 60;
+  };
+  const editExistingTask = async (values, task) => {
+    const formattedEditTaskData = {
+      assigned_user: assUser,
+      task_date: values.date,
+      task_time: setSeconds(values.time),
+      is_completed: task.is_completed,
+      time_zone: 19800,
+      task_msg: values.tdes,
+    };
+    // console.log("edit task submission", formattedEditTaskData);
+    const editTaskUrl = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${task.id}?company_id=${task.company_id}`;
+    const editTaskResponse = await fetch(editTaskUrl, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(formattedEditTaskData),
+    });
+    // console.log("edit res", editTaskResponse);
+    if (editTaskResponse.status === 200) {
+      const data = await editTaskResponse.json();
+      // console.log("task edited", data);
+      setGetTasks(!getTasks);
+      // setShow("taskSummary");
+      setIsEdit(false);
+    } else {
+      const data = await editTaskResponse.json();
+      // console.log("not edited task", data);
+      alert("cant edit new task");
+    }
+  };
 
   const handleSelectChange = (e) => {
     values.a_user = e.target.value;
     setAssUser(e.target.value);
-    console.log("selected user val is", e.target.value);
-    console.log("select val is", values.a_user);
+    // console.log("selected user val is", e.target.value);
+    // console.log("select val is", values.a_user);
   };
 
-  const handleDeleteTask = (taskId) => {
-    console.log("delete task is", taskId);
+  const handleDeleteTask = async (task) => {
+    // console.log("delete task is", task);
+    const deleteTaskUrl = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${task.id}?company_id=${task.company_id}`;
+    const deleteTaskResponse = await fetch(deleteTaskUrl, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    // console.log("delete res", deleteTaskResponse);
+    if (deleteTaskResponse.status === 200) {
+      const data = await deleteTaskResponse.json();
+      // console.log("task deleteed", data);
+      setGetTasks(!getTasks);
+      // setShow("taskSummary");
+    } else {
+      const data = await deleteTaskResponse.json();
+      // console.log("not deleteed task", data);
+      alert("cant delete task");
+    }
   };
 
   return (
@@ -129,7 +175,7 @@ function EditTaskForm({ users, task, isEdit, setIsEdit }) {
             name="a_user"
             id="a_user"
             onChange={handleSelectChange}
-            values={assUser}
+            value={assUser}
             // value={values.a_user}
             // value={"user_8c2ff2128e70493fa4cedd2cab97c492"}
             // required
@@ -146,7 +192,7 @@ function EditTaskForm({ users, task, isEdit, setIsEdit }) {
             <button
               type="button"
               className="delete-button"
-              onClick={handleDeleteTask}
+              onClick={() => handleDeleteTask(task)}
             >
               <svg
                 width="16"

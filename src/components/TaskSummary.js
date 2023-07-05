@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { EditTask } from "./EditTask";
 
-function TaskSummary({ task, users }) {
+function TaskSummary({ task, users, getTasks, setGetTasks }) {
   const [isEdit, setIsEdit] = useState(false);
   const {
     id,
@@ -9,23 +9,58 @@ function TaskSummary({ task, users }) {
     task_date,
     task_time,
     is_completed,
+    is_archived,
     time_zone,
     task_msg,
+    company_id,
   } = task;
 
   const handleEdit = () => {
     setIsEdit(true);
   };
   const markInComplete = () => {
-    console.log("incomplete marked", id);
+    console.log("incomplete marked", task);
   };
-  const markComplete = () => {
-    console.log("complete marked", id);
-  };
+  async function markComplete(task) {
+    // console.log("complete mark", task);
+    const formattedEditTaskData = {
+      assigned_user: task.assigned_user,
+      task_date: task.task_date,
+      task_time: task.task_time,
+      is_completed: 1,
+      time_zone: task.time_zone,
+      task_msg: task.task_msg,
+    };
+    // console.log("mark complete task", formattedEditTaskData);
+    const editTaskUrl = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${task.id}?company_id=${task.company_id}`;
+    const editTaskResponse = await fetch(editTaskUrl, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(formattedEditTaskData),
+    });
+    // console.log("edit res", editTaskResponse);
+    if (editTaskResponse.status === 200) {
+      const data = await editTaskResponse.json();
+      // console.log("task marked as completed", data);
+      setGetTasks(!getTasks);
+      // setShow("taskSummary");
+      // setIsEdit(false);
+    } else {
+      const data = await editTaskResponse.json();
+      // console.log("not updated as completed task", data);
+      alert("cant update as completed task");
+    }
+  }
   return (
     <>
       {isEdit ? (
         <EditTask
+          getTasks={getTasks}
+          setGetTasks={setGetTasks}
           users={users}
           task={task}
           isEdit={isEdit}
@@ -39,7 +74,7 @@ function TaskSummary({ task, users }) {
               <p
                 className="task-title"
                 style={{
-                  textDecoration: is_completed ? "line-through" : "none",
+                  textDecoration: is_archived ? "line-through" : "none",
                 }}
               >
                 {task_msg}
@@ -111,7 +146,9 @@ function TaskSummary({ task, users }) {
                 </button>
                 <button
                   className="right-icon-wrapper tick-icon"
-                  onClick={markComplete}
+                  onClick={() => {
+                    markComplete(task);
+                  }}
                 >
                   <svg
                     width="16"

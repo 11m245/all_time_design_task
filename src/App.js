@@ -9,26 +9,6 @@ function App() {
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState("taskSummary");
   const [tasks, setTasks] = useState([]);
-  // const tasks = [
-  //   {
-  //     id: "id1",
-  //     assigned_user: "user1",
-  //     task_date: "2023-07-04",
-  //     task_time: 79560,
-  //     is_completed: 0,
-  //     time_zone: 19800,
-  //     task_msg: "task description 1",
-  //   },
-  //   {
-  //     id: "id2",
-  //     assigned_user: "user1",
-  //     task_date: "2023-07-03",
-  //     task_time: 78560,
-  //     is_completed: 1,
-  //     time_zone: 19800,
-  //     task_msg: "task description 2",
-  //   },
-  // ];
 
   const handleAddTask = () => {
     setShow("addTask");
@@ -74,7 +54,7 @@ function App() {
     if (usersResponse.status === 200) {
       const data = await usersResponse.json();
       setUsers(data.results.data);
-      console.log("users data", data.results.data);
+      // console.log("users data", data.results.data);
     } else {
       alert("unable to fetch users");
     }
@@ -95,7 +75,7 @@ function App() {
     if (tasksResponse.status === 200) {
       const data = await tasksResponse.json();
       setTasks(data.results);
-      console.log("tasks data", data.results);
+      // console.log("tasks data", data.results);
     } else {
       alert("unable to fetch tasks");
     }
@@ -164,10 +144,21 @@ function App() {
         <section className="tasks-body">
           {show === "taskSummary" ? (
             tasks.map((task) => (
-              <TaskSummary users={users} key={task.id} task={task} />
+              <TaskSummary
+                users={users}
+                key={task.id}
+                task={task}
+                getTasks={getTasks}
+                setGetTasks={setGetTasks}
+              />
             ))
           ) : (
-            <AddTask setShow={setShow} users={users} />
+            <AddTask
+              setShow={setShow}
+              users={users}
+              getTasks={getTasks}
+              setGetTasks={setGetTasks}
+            />
           )}
         </section>
       </main>

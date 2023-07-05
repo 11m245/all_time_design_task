@@ -1,4 +1,5 @@
 .App {
+  margin-inline: auto;
   width: 1536px ;
   height: 840px;  
   display: flex;
@@ -16,8 +17,22 @@ aside{
 main{
   width: calc(100% - 256px);
   height: 100%;
-  overflow: scroll;
-  /* border: 2px solid blue; */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* border: 2px solid red; */
+  scrollbar-color: red;
+}
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 header{
