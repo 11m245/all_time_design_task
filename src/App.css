@@ -3,6 +3,7 @@
   height: 840px;  
   display: flex;
   background: #FAFBFF;
+  /* overflow: scroll; */
   /* border: 2px solid brown; */
 }
 
@@ -15,6 +16,7 @@ aside{
 main{
   width: calc(100% - 256px);
   height: 100%;
+  overflow: scroll;
   /* border: 2px solid blue; */
 }
 
@@ -136,6 +138,7 @@ margin-top: 0;
 border-radius: 0 0 3px 3px;
   border: 1px solid #E5E5E5;
   background: #EDF7FC;
+
 }
 
 
