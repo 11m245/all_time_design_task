@@ -20,7 +20,7 @@ main{
   overflow-y: scroll;
   overflow-x: hidden;
   /* border: 2px solid red; */
-  scrollbar-color: red;
+  /* scrollbar-color: red; */
 }
 ::-webkit-scrollbar {
   width: 4px;
