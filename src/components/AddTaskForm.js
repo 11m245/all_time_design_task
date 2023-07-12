@@ -1,14 +1,12 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as yup from "yup";
+import { CustomDate } from "./Date/customDate";
+import { Time } from "./Time/Time";
 
 export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
-  // const users = [
-  //   { name: "user1", id: 1 },
-  //   { name: "user2", id: 2 },
-  // ];
-  const initialValues = { tdes: "", date: "", time: "", a_user: users[0] };
-  const [assUser, setAssUser] = useState("");
+  const initialValues = { tdes: "", date: "", time: "", a_user: "" };
+  // const [assUser, setAssUser] = useState("");
   const validationSchema = yup.object({
     tdes: yup.string().required("Required"),
     date: yup.string().required("Required"),
@@ -16,23 +14,24 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
     a_user: yup.string().required("Required"),
   });
 
-  const { handleChange, handleSubmit, values } = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit: () => {
-      // console.log("time", values.time);
-      values.time = setSeconds(values.time);
-      // console.log("add task form values", values);
-      addNewTask(values);
-    },
-  });
+  const { handleChange, handleSubmit, values, setFieldValue, errors, touched } =
+    useFormik({
+      initialValues,
+      validationSchema,
+      onSubmit: () => {
+        // console.log("time", values.time);
+        // values.time = setSeconds(values.time);
+        // console.log("add task form values", values);
+        addNewTask(values);
+      },
+    });
 
   const addNewTask = async (values) => {
     // console.log("new task submission", values);
     const formattedNewTaskData = {
       assigned_user: values.a_user,
       task_date: values.date,
-      task_time: values.time,
+      task_time: parseInt(values.time),
       is_completed: 0,
       time_zone: 19800,
       task_msg: values.tdes,
@@ -62,15 +61,39 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
     }
   };
 
-  const setSeconds = (str) => {
-    const [hour, min] = str.split(":");
-    return parseInt(hour) * 60 * 60 + parseInt(min) * 60;
-  };
+  // const setSeconds = (str) => {
+  //   const [hour, min] = str.split(":");
+  //   return parseInt(hour) * 60 * 60 + parseInt(min) * 60;
+  // };
 
   const handleSelectChange = (e) => {
-    values.a_user = e.target.value;
-    setAssUser(e.target.value);
+    // values.a_user = e.target.value;
+    // setAssUser(e.target.value);
     // console.log("selected user val is", e.target.value);
+    setFieldValue("a_user", e.target.value);
+  };
+  const strWithZero = (num) => {
+    const str = String(num);
+    if (str.length < 2) {
+      return str.padStart(2, "0");
+    } else {
+      return str;
+    }
+  };
+  const handleDateChange = (e, year, month) => {
+    console.log("onchange in custom component prop", e, year, month);
+    console.log("date change from cust dt", year, month, e.target.innerText);
+    // setSelectedDate(new Date(year, month, e.target.innerText));
+
+    setFieldValue(
+      "date",
+      `${year}-${strWithZero(month + 1)}-${strWithZero(e.target.innerText)}`
+    );
+  };
+
+  const handleTimeChange = (vv) => {
+    // console.log("handle time change", vv);
+    setFieldValue("time", vv);
   };
   return (
     <>
@@ -91,27 +114,43 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
             <label htmlFor="date" style={{ fontWeight: 600, gap: "6px" }}>
               Date
             </label>
-            <input
+            {/* <input
               required
               id="date"
               type="date"
               name="date"
               onChange={handleChange}
               value={values.date}
-            ></input>
+              // value={"2023-07-10"}
+            ></input> */}
+
+            <CustomDate
+              id="date"
+              type="date"
+              name="date"
+              value={values.date}
+              onChange={handleDateChange}
+            />
           </div>
           <div className="input-field-wrapper">
             <label htmlFor="time" style={{ fontWeight: 600, gap: "6px" }}>
               Time
             </label>
-            <input
+            {/* <input
               required
               id="time"
               type="time"
               name="time"
               onChange={handleChange}
               value={values.time}
-            ></input>
+            ></input> */}
+            <Time
+              id="time"
+              type="time"
+              name="time"
+              value={values.time}
+              onChange={handleTimeChange}
+            />
           </div>
         </div>
         <div className="input-field-wrapper">
@@ -120,7 +159,8 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
             name="a_user"
             id="a_user"
             onChange={handleSelectChange}
-            values={assUser}
+            defaultValue={""}
+            value={values.a_user}
             // value={values.a_user}
             required
           >
@@ -130,6 +170,7 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
               </option>
             ))}
           </select>
+          {touched.a_user && errors.a_user ? alert(errors.a_user) : null}
         </div>
         <div className="buttons-container">
           <button

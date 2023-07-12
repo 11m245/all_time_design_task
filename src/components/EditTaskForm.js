@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as yup from "yup";
+import { CustomDate } from "./Date/customDate";
+import { Time } from "./Time/Time";
 
 export function EditTaskForm({
   users,
@@ -13,15 +15,15 @@ export function EditTaskForm({
   const { assigned_user, task_date, task_time, task_msg } = task;
 
   const [assUser, setAssUser] = useState(assigned_user);
-  const get24hrString = (seconds) => {
-    const hr = parseInt(seconds / 3600);
-    const min = parseInt((seconds - hr * 3600) / 60);
-    return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
-  };
+  // const get24hrString = (seconds) => {
+  //   const hr = parseInt(seconds / 3600);
+  //   const min = parseInt((seconds - hr * 3600) / 60);
+  //   return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
+  // };
   const initialValues = {
     tdes: task_msg,
     date: task_date,
-    time: get24hrString(task_time),
+    time: task_time,
     a_user: assigned_user,
   };
 
@@ -32,29 +34,30 @@ export function EditTaskForm({
     a_user: yup.string(),
   });
 
-  const { handleChange, handleSubmit, values } = useFormik({
+  const { handleChange, handleSubmit, values, setFieldValue } = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: () => {
-      // console.log("edit form values", values);
       editExistingTask(values, task);
     },
   });
-  const setSeconds = (str) => {
-    const [hour, min] = str.split(":");
-    return parseInt(hour) * 60 * 60 + parseInt(min) * 60;
-  };
+  // const setSeconds = (str) => {
+  //   const [hour, min] = str.split(":");
+  //   return parseInt(hour) * 60 * 60 + parseInt(min) * 60;
+  // };
   const editExistingTask = async (values, task) => {
+    console.log("edit task values submission", values);
     const formattedEditTaskData = {
       assigned_user: assUser,
       task_date: values.date,
-      task_time: setSeconds(values.time),
+      // task_time: setSeconds(values.time),
+      task_time: parseInt(values.time),
       is_completed: task.is_completed,
       time_zone: 19800,
       task_msg: values.tdes,
     };
-    // console.log("edit task submission", formattedEditTaskData);
+    // console.log("edit task formatted submission", formattedEditTaskData);
     const editTaskUrl = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${task.id}?company_id=${task.company_id}`;
     const editTaskResponse = await fetch(editTaskUrl, {
       method: "PUT",
@@ -70,7 +73,6 @@ export function EditTaskForm({
       const data = await editTaskResponse.json();
       // console.log("task edited", data);
       setGetTasks(!getTasks);
-      // setShow("taskSummary");
       setIsEdit(false);
     } else {
       const data = await editTaskResponse.json();
@@ -102,12 +104,32 @@ export function EditTaskForm({
       const data = await deleteTaskResponse.json();
       // console.log("task deleteed", data);
       setGetTasks(!getTasks);
-      // setShow("taskSummary");
     } else {
       const data = await deleteTaskResponse.json();
       // console.log("not deleteed task", data);
       alert("cant delete task");
     }
+  };
+  const strWithZero = (num) => {
+    const str = String(num);
+    if (str.length < 2) {
+      return str.padStart(2, "0");
+    } else {
+      return str;
+    }
+  };
+  const handleDateChange = (e, year, month) => {
+    console.log("onchange in custom component prop", e, year, month);
+    console.log("date change from cust dt", year, month, e.target.innerText);
+    // setSelectedDate(new Date(year, month, e.target.innerText));
+    setFieldValue(
+      "date",
+      `${year}-${strWithZero(month + 1)}-${strWithZero(e.target.innerText)}`
+    );
+  };
+  const handleTimeChange = (vv) => {
+    // console.log("handle time change", vv);
+    setFieldValue("time", vv);
   };
 
   return (
@@ -129,27 +151,41 @@ export function EditTaskForm({
             <label htmlFor="date" style={{ fontWeight: 600, gap: "6px" }}>
               Date
             </label>
-            <input
+            {/* <input
               required
               id="date"
               type="date"
               name="date"
               onChange={handleChange}
               value={values.date}
-            ></input>
+            ></input> */}
+            <CustomDate
+              id="date"
+              type="date"
+              name="date"
+              value={values.date}
+              onChange={handleDateChange}
+            />
           </div>
           <div className="input-field-wrapper">
             <label htmlFor="time" style={{ fontWeight: 600, gap: "6px" }}>
               Time
             </label>
-            <input
+            {/* <input
               required
               id="time"
               type="time"
               name="time"
               onChange={handleChange}
               value={values.time}
-            ></input>
+            ></input> */}
+            <Time
+              id="time"
+              type="time"
+              name="time"
+              value={values.time}
+              onChange={handleTimeChange}
+            />
           </div>
         </div>
         <div className="input-field-wrapper">

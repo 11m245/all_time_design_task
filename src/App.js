@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { TaskSummary } from "./components/TaskSummary";
 import { AddTask } from "./components/AddTask";
+import { CustomDate } from "./components/Date/customDate";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -107,6 +108,7 @@ function App() {
       <aside></aside>
       <main>
         <header></header>
+        {/* <p>selected date is {selectedDate?.toDateString()}</p> */}
         <section className="test-section">
           <h1>Test</h1>
           <a
@@ -118,6 +120,8 @@ function App() {
           </a>
           <p>Add description,</p>
         </section>
+        {/* <CustomDate selectedDate={selectedDate} onDateChange={onDateChange} /> */}
+
         <section className="tasks-header">
           <div className="header-left">
             <p className="title"> TASKS</p>
