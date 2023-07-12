@@ -1,5 +1,4 @@
 import { useFormik } from "formik";
-import { useState } from "react";
 import * as yup from "yup";
 import { CustomDate } from "./Date/customDate";
 import { Time } from "./Time/Time";
@@ -81,8 +80,8 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
     }
   };
   const handleDateChange = (e, year, month) => {
-    console.log("onchange in custom component prop", e, year, month);
-    console.log("date change from cust dt", year, month, e.target.innerText);
+    // console.log("onchange in custom component prop", e, year, month);
+    // console.log("date change from cust dt", year, month, e.target.innerText);
     // setSelectedDate(new Date(year, month, e.target.innerText));
 
     setFieldValue(
@@ -159,18 +158,24 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
             name="a_user"
             id="a_user"
             onChange={handleSelectChange}
-            defaultValue={""}
             value={values.a_user}
             // value={values.a_user}
             required
           >
+            <option key={"keyBlank"} value={""}></option>
             {users.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}
           </select>
-          {touched.a_user && errors.a_user ? alert(errors.a_user) : null}
+
+          <p>
+            {" "}
+            {touched.a_user && errors.a_user
+              ? `user is ${errors.a_user}`
+              : null}
+          </p>
         </div>
         <div className="buttons-container">
           <button

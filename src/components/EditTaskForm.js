@@ -47,7 +47,7 @@ export function EditTaskForm({
   //   return parseInt(hour) * 60 * 60 + parseInt(min) * 60;
   // };
   const editExistingTask = async (values, task) => {
-    console.log("edit task values submission", values);
+    // console.log("edit task values submission", values);
     const formattedEditTaskData = {
       assigned_user: assUser,
       task_date: values.date,
@@ -196,8 +196,9 @@ export function EditTaskForm({
             onChange={handleSelectChange}
             value={assUser}
           >
+            <option key={"keyBlank"} value={""}></option>
             {users.map((user) => (
-              <option key={user.id} value={user.id}>
+              <option className="select-option" key={user.id} value={user.id}>
                 {user.name}
               </option>
             ))}

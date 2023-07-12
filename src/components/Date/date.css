@@ -69,8 +69,7 @@
         line-height: 16px;
 }
 
-.day-container:hover{
-  
+.day-container:hover{  
     border-radius:50%;
     border: 2px solid #4681B6;
 }
@@ -79,7 +78,7 @@
        
         border-radius: 3px;
         /* border: 1px solid #E5E5E5; */
-        background: #FFF;
+        
         width: 168px;
         height: 34px;
         flex-shrink: 0;
