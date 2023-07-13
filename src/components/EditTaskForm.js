@@ -119,8 +119,8 @@ export function EditTaskForm({
     }
   };
   const handleDateChange = (e, year, month) => {
-    console.log("onchange in custom component prop", e, year, month);
-    console.log("date change from cust dt", year, month, e.target.innerText);
+    // console.log("onchange in custom component prop", e, year, month);
+    // console.log("date change from cust dt", year, month, e.target.innerText);
     // setSelectedDate(new Date(year, month, e.target.innerText));
     setFieldValue(
       "date",

@@ -41,6 +41,7 @@ function DateHeader(props) {
   return (
     <div className="date-header">
       <button
+        type="button"
         className="month-arrow"
         onClick={() =>
           setViewDate(
@@ -72,6 +73,7 @@ function DateHeader(props) {
         months[viewDate.getMonth()]
       } ${viewDate.getFullYear()} `}</div>
       <button
+        type="button"
         className="month-arrow"
         onClick={() =>
           setViewDate(
