@@ -282,6 +282,7 @@ flex-basis: 50%;
 }
 
 .cancel-button{
+  background-color: transparent;
   cursor: pointer;
   color: #262E39;
     font-size: 14px;
