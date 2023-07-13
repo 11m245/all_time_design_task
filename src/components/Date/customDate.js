@@ -36,6 +36,7 @@ function CustomDate(props) {
             );
           }}
           value={value}
+          onClick={(e) => e.preventDefault()}
         ></input>
         <div className="date-logo">
           <svg
