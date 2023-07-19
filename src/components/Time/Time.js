@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./time.css";
+import { AllTimeContext } from "../../App";
 function Time(props) {
   const { id, name, value, onChange } = props;
   const [selectedTime, setSelectedTime] = useState(value || 0);
+  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
 
   const generateTimesArray = (minuteInterval) => {
     const times = [];
@@ -13,10 +15,16 @@ function Time(props) {
     return times;
   };
 
-  const generateTimeOption = (minute) => {
+  const generateTimeOption = (minuteInterval) => {
     const time = `${
-      parseInt(minute / 60) === 0 ? 12 : parseInt(minute / 60)
-    }:${parseInt(minute % 60)}:${parseInt(minute / 60) > 12 ? "PM" : "AM"}`;
+      parseInt(minuteInterval / 60) === 0
+        ? 12
+        : parseInt(minuteInterval / 60) > 12
+        ? parseInt(minuteInterval / 60) - 12
+        : parseInt(minuteInterval / 60)
+    }:${parseInt(minuteInterval % 60)}:${
+      parseInt(minuteInterval / 60) > 12 ? "PM" : "AM"
+    }`;
     const formattedTime = time.split(":").map((substr) => {
       if (substr.length < 2) {
         return substr.padStart(2, "0");
@@ -33,6 +41,7 @@ function Time(props) {
         name={name}
         id={id}
         value={selectedTime}
+        onClick={() => setActivePopup("time")}
         onChange={(e) => {
           // console.log("onchange time in select", e.target.value);
           setSelectedTime(e.target.value);

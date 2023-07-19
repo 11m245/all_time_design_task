@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DateDropDown } from "./DateDropDown";
 import "./date.css";
+import { AllTimeContext } from "../../App";
 
 function CustomDate(props) {
   const { id, name, value, onChange } = props;
   const [showDateDropDown, setShowDateDropDown] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
 
   const strWithZero = (num) => {
     const str = String(num);
@@ -20,7 +23,10 @@ function CustomDate(props) {
     <>
       <div
         className="date-input-field-container"
-        onClick={() => setShowDateDropDown(true)}
+        onClick={() => {
+          setShowDateDropDown(true);
+          setActivePopup("date");
+        }}
       >
         <input
           className="date-input-wrapper"
@@ -53,13 +59,20 @@ function CustomDate(props) {
           </svg>
         </div>
       </div>
-      {showDateDropDown ? (
+      {activePopUp === "date" ? (
         <DateDropDown
           setShowDateDropDown={setShowDateDropDown}
           selectedDate={selectedDate}
           onChange={onChange}
         />
       ) : null}
+      {/* {showDateDropDown ? (
+        <DateDropDown
+          setShowDateDropDown={setShowDateDropDown}
+          selectedDate={selectedDate}
+          onChange={onChange}
+        />
+      ) : null} */}
     </>
   );
 }

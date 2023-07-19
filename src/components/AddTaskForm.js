@@ -2,9 +2,20 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { CustomDate } from "./Date/customDate";
 import { Time } from "./Time/Time";
+import { useContext } from "react";
+import { AllTimeContext } from "../App";
 
-export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
-  const initialValues = { tdes: "", date: "", time: "", a_user: "" };
+export function AddTaskForm({
+  addTasks,
+  setAddTasks,
+  formNo,
+  setShow,
+  users,
+  getTasks,
+  setGetTasks,
+}) {
+  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
+  const initialValues = { tdes: "Follow up", date: "", time: "", a_user: "" };
   // const [assUser, setAssUser] = useState("");
   const validationSchema = yup.object({
     tdes: yup.string().required("Required"),
@@ -17,14 +28,18 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
     useFormik({
       initialValues,
       validationSchema,
-      onSubmit: () => {
+      onSubmit: async () => {
         // console.log("time", values.time);
         // values.time = setSeconds(values.time);
         // console.log("add task form values", values);
-        addNewTask(values);
+        await addNewTask(values);
+        deleteAfterUpdate(formNo);
       },
     });
 
+  const deleteAfterUpdate = (formNo) => {
+    setAddTasks(addTasks.filter((task) => formNo !== task.formNo));
+  };
   const addNewTask = async (values) => {
     // console.log("new task submission", values);
     const formattedNewTaskData = {
@@ -157,6 +172,7 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
           <select
             name="a_user"
             id="a_user"
+            onClick={() => setActivePopup("user")}
             onChange={handleSelectChange}
             value={values.a_user}
             // value={values.a_user}
@@ -181,7 +197,10 @@ export function AddTaskForm({ setShow, users, getTasks, setGetTasks }) {
           <button
             className="cancel-button"
             type="button"
-            onClick={() => setShow("taskSummary")}
+            onClick={() => {
+              setShow("taskSummary");
+              deleteAfterUpdate(formNo);
+            }}
           >
             Cancel
           </button>

@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AllTimeContext } from "../../App";
 
 function DateDropDown({ selectedDate, onChange, setShowDateDropDown }) {
   const [viewDate, setViewDate] = useState(selectedDate);
+
+  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
 
   return (
     <div className="date-dropdown-wrapper">
@@ -15,6 +18,7 @@ function DateDropDown({ selectedDate, onChange, setShowDateDropDown }) {
           // console.log("handle month comp onchange in pop", e);
           if (e.target.className === "day-text") {
             setShowDateDropDown(false);
+            setActivePopup(null);
           }
         }}
       />

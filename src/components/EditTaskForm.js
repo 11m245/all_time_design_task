@@ -1,8 +1,9 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as yup from "yup";
 import { CustomDate } from "./Date/customDate";
 import { Time } from "./Time/Time";
+import { AllTimeContext } from "../App";
 
 export function EditTaskForm({
   users,
@@ -13,6 +14,7 @@ export function EditTaskForm({
   setGetTasks,
 }) {
   const { assigned_user, task_date, task_time, task_msg } = task;
+  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
 
   const [assUser, setAssUser] = useState(assigned_user);
   // const get24hrString = (seconds) => {
@@ -194,6 +196,7 @@ export function EditTaskForm({
             name="a_user"
             id="a_user"
             onChange={handleSelectChange}
+            onClick={() => setActivePopup("user")}
             value={assUser}
           >
             <option key={"keyBlank"} value={""}></option>
@@ -208,9 +211,10 @@ export function EditTaskForm({
           <div className="left">
             <button
               type="button"
-              className="delete-button"
+              className="delete-button tooltip"
               onClick={() => handleDeleteTask(task)}
             >
+              <span>Delete</span>
               <svg
                 width="16"
                 height="16"
@@ -231,7 +235,7 @@ export function EditTaskForm({
 
           <div className="right">
             <button
-              className="cancel-button"
+              className="cancel-button "
               type="button"
               onClick={() => setIsEdit(false)}
             >

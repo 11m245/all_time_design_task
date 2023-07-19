@@ -55,6 +55,31 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
       alert("cant update as completed task");
     }
   }
+
+  const formatTime = (seconds) => {
+    const time = `${
+      parseInt(seconds / (60 * 60)) === 0
+        ? 12
+        : parseInt(seconds / (60 * 60)) > 12
+        ? parseInt(seconds / (60 * 60)) - 12
+        : parseInt(seconds / (60 * 60))
+    }:${parseInt(seconds % 60)}:${
+      parseInt(seconds / (60 * 60)) > 12 ? "PM" : "AM"
+    }`;
+    const formattedTime = time.split(":").map((substr) => {
+      if (substr.length < 2) {
+        return substr.padStart(2, "0");
+      } else {
+        return substr;
+      }
+    });
+    return `${formattedTime[0]}:${formattedTime[1]} ${formattedTime[2]}`;
+  };
+
+  const getIntoSeconds = (task_date, task_time) => {
+    const timeSec = new Date(task_date).getTime() + task_time * 1000;
+    return timeSec;
+  };
   return (
     <>
       {isEdit ? (
@@ -79,15 +104,27 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
               >
                 {task_msg}
               </p>
-              <p className="task-date">{task_date}</p>
+              <p
+                className="task-date"
+                style={
+                  new Date().getTime() >= getIntoSeconds(task_date, task_time)
+                    ? {
+                        color: "red",
+                      }
+                    : { color: "black" }
+                }
+              >
+                {task_date} at {formatTime(task_time)}
+              </p>
             </div>
           </div>
           <div className="right">
             <button
               type="button"
-              className="right-icon-wrapper edit-icon"
+              className="right-icon-wrapper edit-icon tooltip"
               onClick={handleEdit}
             >
+              <span>Edit</span>
               <svg
                 width="16"
                 height="16"
@@ -106,9 +143,10 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
             </button>
             {is_completed ? (
               <button
-                className="right-icon-wrapper unread-icon"
+                className="right-icon-wrapper unread-icon tooltip"
                 onClick={markInComplete}
               >
+                <span>InComplete</span>
                 <svg
                   width="16"
                   height="16"
@@ -127,7 +165,8 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
               </button>
             ) : (
               <>
-                <button className="right-icon-wrapper snooze-icon">
+                <button className="right-icon-wrapper snooze-icon tooltip">
+                  <span>Snooze</span>
                   <svg
                     width="16"
                     height="16"
@@ -145,11 +184,12 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
                   </svg>
                 </button>
                 <button
-                  className="right-icon-wrapper tick-icon"
+                  className="right-icon-wrapper tick-icon tooltip"
                   onClick={() => {
                     markComplete(task);
                   }}
                 >
+                  <span>Complete</span>
                   <svg
                     width="16"
                     height="16"

@@ -7,7 +7,23 @@
     background: #FFF;
     padding: 20px;
     position: absolute;
+    top: 145px;
     z-index: 2;
+}
+
+.date-dropdown-wrapper::after{
+    border: 8px solid #E3E8EE;
+            border-left: solid transparent 8px;
+            border-right: solid transparent 8px;
+            border-top: solid transparent 8px;
+            top: -16px;
+            content: " ";
+            height: 0;
+            left: 50%;
+            margin-left: -13px;
+            position: absolute;
+            /* width: 0; */
+    
 }
 
 .month-arrow{

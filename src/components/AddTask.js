@@ -1,10 +1,21 @@
 import { AddTaskForm } from "./AddTaskForm";
 
-function AddTask({ setShow, users, getTasks, setGetTasks }) {
+function AddTask({
+  formNo,
+  setShow,
+  users,
+  getTasks,
+  setGetTasks,
+  addTasks,
+  setAddTasks,
+}) {
   return (
     <>
       <div className="add-task-wrapper">
         <AddTaskForm
+          addTasks={addTasks}
+          setAddTasks={setAddTasks}
+          formNo={formNo}
           setShow={setShow}
           users={users}
           getTasks={getTasks}
