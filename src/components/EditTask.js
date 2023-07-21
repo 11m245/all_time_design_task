@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { EditTaskForm } from "./EditTaskForm";
 
 function EditTask({ users, task, isEdit, setIsEdit, getTasks, setGetTasks }) {

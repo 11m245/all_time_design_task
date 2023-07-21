@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import "./App.css";
 import { TaskSummary } from "./components/TaskSummary";
 import { AddTask } from "./components/AddTask";
-export const AllTimeContext = createContext();
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [getTasks, setGetTasks] = useState(false);
@@ -10,14 +10,8 @@ function App() {
   const [show, setShow] = useState("taskSummary");
   const [tasks, setTasks] = useState([]);
   const [addTasks, setAddTasks] = useState([]);
-  // const [activePopUp, setActivePopUp] = useState(null);
-  // const contextObj = {
-  //   activePopUp: activePopUp,
-  //   setActivePopUp: setActivePopUp,
-  // };
 
   const handleAddTask = () => {
-    // setShow("addTask");
     if (addTasks.length === 0) {
       setAddTasks([...addTasks, { formNo: 0 }]);
     } else {

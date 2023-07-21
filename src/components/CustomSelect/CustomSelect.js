@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import "./customSelect.css";
-import { AllTimeContext } from "../../App";
+
 import { SelectHeader } from "./SelectHeader";
 import { SelectOptions } from "./SelectOptions";
 function CustomSelect(props) {

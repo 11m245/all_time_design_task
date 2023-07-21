@@ -1,8 +1,6 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { DateDropDown } from "./DateDropDown";
 import "./date.css";
-import { AllTimeContext } from "../../App";
-import { useComponentVisible } from "../CompononentVisible";
 
 function CustomDate(props) {
   const { id, name, value, onChange } = props;

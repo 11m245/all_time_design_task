@@ -1,10 +1,9 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./time.css";
-import { AllTimeContext } from "../../App";
+
 function Time(props) {
   const { id, name, value, onChange } = props;
   const [selectedTime, setSelectedTime] = useState(value || 0);
-  // const { activePopUp, setActivePopUp } = useContext(AllTimeContext);
 
   const generateTimesArray = (minuteInterval) => {
     const times = [];
