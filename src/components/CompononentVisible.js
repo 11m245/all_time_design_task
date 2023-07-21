@@ -9,7 +9,7 @@ function useComponentVisible(initialIsVisible) {
     if (ref.current && !ref.current.contains(event.target)) {
       setIsComponentVisible(false);
       // alert("click outside");
-      console.log(ref.current, event.target);
+      // console.log(ref.current, event.target);
     }
   };
 

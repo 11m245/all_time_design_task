@@ -1,12 +1,9 @@
-import { useContext, useEffect } from "react";
-import { AllTimeContext } from "../../App";
-
 export function SelectHeader(props) {
   const { value, users, userOptions } = props;
 
   const getUserName = (id) => {
     const matchedUser = users.find((user) => user.id === id);
-    return matchedUser.name;
+    return matchedUser?.name ? matchedUser.name : null;
   };
 
   return (
