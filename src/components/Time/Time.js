@@ -4,7 +4,7 @@ import { AllTimeContext } from "../../App";
 function Time(props) {
   const { id, name, value, onChange } = props;
   const [selectedTime, setSelectedTime] = useState(value || 0);
-  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
+  // const { activePopUp, setActivePopUp } = useContext(AllTimeContext);
 
   const generateTimesArray = (minuteInterval) => {
     const times = [];
@@ -41,7 +41,6 @@ function Time(props) {
         name={name}
         id={id}
         value={selectedTime}
-        onClick={() => setActivePopup("time")}
         onChange={(e) => {
           // console.log("onchange time in select", e.target.value);
           setSelectedTime(e.target.value);

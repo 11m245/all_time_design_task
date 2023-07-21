@@ -1,33 +1,43 @@
-import { useContext, useEffect, useState } from "react";
-import { AllTimeContext } from "../../App";
+import { useState } from "react";
+import { useComponentVisible } from "../CompononentVisible";
 
-function DateDropDown({ selectedDate, onChange, setShowDateDropDown }) {
+function DateDropDown({
+  selectedDate,
+  onChange,
+  setShowDateDropDown,
+  showDateDropDown,
+}) {
   const [viewDate, setViewDate] = useState(selectedDate);
-
-  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
+  const { ref, isComponentVisible, setIsComponentVisible } =
+    useComponentVisible(showDateDropDown);
 
   return (
-    <div className="date-dropdown-wrapper">
-      <DateHeader viewDate={viewDate} setViewDate={setViewDate} />
-      <MonthDates
-        viewDate={viewDate}
-        selectedDate={selectedDate}
-        setViewDate={setViewDate}
-        handleDateChange={(e) => {
-          onChange(e, viewDate.getFullYear(), viewDate.getMonth());
-          // console.log("handle month comp onchange in pop", e);
-          if (e.target.className === "day-text") {
-            setShowDateDropDown(false);
-            setActivePopup(null);
-          }
-        }}
-      />
-    </div>
+    <>
+      {isComponentVisible ? (
+        <div className="date-dropdown-wrapper" ref={ref}>
+          <DateHeader viewDate={viewDate} setViewDate={setViewDate} />
+          <MonthDates
+            viewDate={viewDate}
+            selectedDate={selectedDate}
+            setViewDate={setViewDate}
+            handleDateChange={(e) => {
+              onChange(e, viewDate.getFullYear(), viewDate.getMonth());
+              // console.log("handle month comp onchange in pop", e);
+              if (e.target.className === "day-text") {
+                setShowDateDropDown(false);
+                // console.log("runn");
+              }
+            }}
+          />
+        </div>
+      ) : null}
+    </>
   );
 }
 
 function DateHeader(props) {
   const { viewDate, setViewDate } = props;
+
   const months = [
     "January",
     "February",
@@ -79,15 +89,16 @@ function DateHeader(props) {
       <button
         type="button"
         className="month-arrow"
-        onClick={() =>
+        onClick={() => {
+          // console.log("cl arrow");
           setViewDate(
             new Date(
               viewDate.getFullYear(),
               viewDate.getMonth() + 1,
               viewDate.getDate()
             )
-          )
-        }
+          );
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -4,6 +4,7 @@ import { CustomDate } from "./Date/customDate";
 import { Time } from "./Time/Time";
 import { useContext } from "react";
 import { AllTimeContext } from "../App";
+import { CustomSelect } from "./CustomSelect/CustomSelect";
 
 export function AddTaskForm({
   addTasks,
@@ -14,7 +15,6 @@ export function AddTaskForm({
   getTasks,
   setGetTasks,
 }) {
-  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
   const initialValues = { tdes: "Follow up", date: "", time: "", a_user: "" };
   // const [assUser, setAssUser] = useState("");
   const validationSchema = yup.object({
@@ -109,6 +109,12 @@ export function AddTaskForm({
     // console.log("handle time change", vv);
     setFieldValue("time", vv);
   };
+
+  const handleUserOption = (optionValue) => {
+    const clickedUser = users.find((user) => user.name === optionValue);
+    setFieldValue("a_user", clickedUser.id);
+    // setActivePopUp(null);
+  };
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -169,10 +175,10 @@ export function AddTaskForm({
         </div>
         <div className="input-field-wrapper">
           <label htmlFor="a_user">Assign User</label>
-          <select
+          {/* <select
             name="a_user"
             id="a_user"
-            onClick={() => setActivePopup("user")}
+            onClick={() => setActivePopUp("user")}
             onChange={handleSelectChange}
             value={values.a_user}
             // value={values.a_user}
@@ -184,7 +190,16 @@ export function AddTaskForm({
                 {user.name}
               </option>
             ))}
-          </select>
+          </select> */}
+
+          <CustomSelect
+            required={true}
+            name={"a_user"}
+            id={"a_user"}
+            value={values.a_user}
+            options={users}
+            onOptionChange={handleUserOption}
+          />
 
           <p>
             {" "}

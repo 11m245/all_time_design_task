@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { CustomDate } from "./Date/customDate";
 import { Time } from "./Time/Time";
 import { AllTimeContext } from "../App";
+import { CustomSelect } from "./CustomSelect/CustomSelect";
 
 export function EditTaskForm({
   users,
@@ -14,7 +15,6 @@ export function EditTaskForm({
   setGetTasks,
 }) {
   const { assigned_user, task_date, task_time, task_msg } = task;
-  const { activePopUp, setActivePopup } = useContext(AllTimeContext);
 
   const [assUser, setAssUser] = useState(assigned_user);
   // const get24hrString = (seconds) => {
@@ -134,6 +134,12 @@ export function EditTaskForm({
     setFieldValue("time", vv);
   };
 
+  const handleUserOption = (optionValue) => {
+    const clickedUser = users.find((user) => user.name === optionValue);
+    setFieldValue("a_user", clickedUser.id);
+    // setActivePopUp(null);
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -192,11 +198,19 @@ export function EditTaskForm({
         </div>
         <div className="input-field-wrapper">
           <label htmlFor="a_user">Assign User</label>
-          <select
+
+          <CustomSelect
+            required={true}
+            name={"a_user"}
+            id={"a_user"}
+            value={values.a_user}
+            options={users}
+            onOptionChange={handleUserOption}
+          />
+          {/* <select
             name="a_user"
             id="a_user"
             onChange={handleSelectChange}
-            onClick={() => setActivePopup("user")}
             value={assUser}
           >
             <option key={"keyBlank"} value={""}></option>
@@ -205,7 +219,7 @@ export function EditTaskForm({
                 {user.name}
               </option>
             ))}
-          </select>
+          </select> */}
         </div>
         <div className="buttons-container">
           <div className="left">
