@@ -5,7 +5,9 @@ import "./date.css";
 function CustomDate(props) {
   const { id, name, value, onChange } = props;
   const [showDateDropDown, setShowDateDropDown] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(
+    value ? new Date(value) : new Date()
+  );
 
   const strWithZero = (num) => {
     const str = String(num);
@@ -27,14 +29,14 @@ function CustomDate(props) {
           id={id}
           name={name}
           type="date"
-          onChange={(e) => {
-            // console.log("onchange in input", e.target.value);
-            onChange(
-              `${selectedDate.getFullYear()}-${strWithZero(
-                selectedDate.getMonth() + 1
-              )}-${strWithZero(selectedDate.getDate())}`
-            );
-          }}
+          // onChange={(e) => {
+          //   // console.log("onchange in input", e.target.value);
+          //   onChange(
+          //     `${selectedDate.getFullYear()}-${strWithZero(
+          //       selectedDate.getMonth() + 1
+          //     )}-${strWithZero(selectedDate.getDate())}`
+          //   );
+          // }}
           value={value}
           onClick={(e) => e.preventDefault()}
         ></input>
