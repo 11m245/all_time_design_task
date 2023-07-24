@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+
 import * as yup from "yup";
 import { CustomDate } from "./Date/customDate";
 import { Time } from "./Time/Time";
@@ -16,7 +16,6 @@ export function EditTaskForm({
 }) {
   const { assigned_user, task_date, task_time, task_msg } = task;
 
-  const [assUser, setAssUser] = useState(assigned_user);
   // const get24hrString = (seconds) => {
   //   const hr = parseInt(seconds / 3600);
   //   const min = parseInt((seconds - hr * 3600) / 60);
@@ -51,7 +50,7 @@ export function EditTaskForm({
   const editExistingTask = async (values, task) => {
     // console.log("edit task values submission", values);
     const formattedEditTaskData = {
-      assigned_user: assUser,
+      assigned_user: values.a_user,
       task_date: values.date,
       // task_time: setSeconds(values.time),
       task_time: parseInt(values.time),
@@ -84,8 +83,7 @@ export function EditTaskForm({
   };
 
   const handleSelectChange = (e) => {
-    values.a_user = e.target.value;
-    setAssUser(e.target.value);
+    setFieldValue("a_user", e.target.value);
     // console.log("selected user val is", e.target.value);
     // console.log("select val is", values.a_user);
   };
