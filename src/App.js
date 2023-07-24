@@ -159,7 +159,7 @@ function App() {
                 <AddTask
                   addTasks={addTasks}
                   setAddTasks={setAddTasks}
-                  key={i}
+                  key={val.formNo}
                   formNo={val.formNo}
                   setShow={setShow}
                   users={users}

@@ -350,6 +350,8 @@ button:hover{
   line-height: 14px;
   border-radius: 6px;
   position: absolute;
+  top: 0px;
+  left: 0px;
   top: -25px;
   left: -55px;
   z-index: 5;
@@ -365,15 +367,15 @@ button.add-icon.tooltip:hover span {
   left: -75px;
 }
 
-.tooltip span:after {
+.tooltip span::after {
   border-left: solid transparent 8px;
     border-right: solid transparent 8px;
-    border-top: solid #000 8px;
-    bottom: -5px;
+    border-top: solid #000 8px;    
     content: " ";
     height: 0;
     left: 80%;
-    margin-left: -13px;
+    margin-left: -10px;
     position: absolute;
+    bottom: -5px;
     /* width: 0; */
 }

@@ -77,8 +77,8 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
   };
 
   const getIntoSeconds = (task_date, task_time) => {
-    const timeSec = new Date(task_date).getTime() + task_time * 1000;
-    return timeSec;
+    const timeMilliSec = new Date(task_date).getTime() + task_time * 1000;
+    return timeMilliSec;
   };
   return (
     <>

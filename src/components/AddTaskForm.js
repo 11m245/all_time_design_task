@@ -66,7 +66,7 @@ export function AddTaskForm({
       const data = await addTaskResponse.json();
       // console.log("task added", data);
       setGetTasks(!getTasks);
-      setShow("taskSummary");
+      // setShow("taskSummary");
     } else {
       const data = await addTaskResponse.json();
       // console.log("not added task", data);
