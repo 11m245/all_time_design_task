@@ -379,3 +379,7 @@ button.add-icon.tooltip:hover span {
     bottom: -5px;
     /* width: 0; */
 }
+
+input:focus, select:focus, div.select-header:focus{
+  outline: 1px solid #52a8ec;
+}
