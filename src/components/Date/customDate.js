@@ -58,6 +58,7 @@ function CustomDate(props) {
           showDateDropDown={showDateDropDown}
           setShowDateDropDown={setShowDateDropDown}
           selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
           onChange={onChange}
         />
       ) : null}
