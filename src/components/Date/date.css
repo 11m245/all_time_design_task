@@ -38,13 +38,24 @@
 }
 
 .month-arrow{
-    width: 16px;
+        width: 16px;
         height: 16px;
-        flex-shrink: 0;
+        flex-shrink: 0;       
+        border-radius: 4px;
+}
+
+.month-arrow:hover {
+    background: #3781b8 !important;
+    color: #fff !important;
+}
+.month-arrow:hover path {
+    /* background: #3781b8 !important; */
+    fill: #fff !important;
 }
 .date-header, .month-header, .year-header{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .date-header  button, .month-header  button, .year-header  button {
@@ -69,6 +80,13 @@ background-color: #fff;
         font-weight: 600;
         line-height: 18px;
         cursor: pointer;
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
+
+    & .title:hover{
+    background: #3781b8 !important;
+        color: #fff !important;
     }
 }
  
@@ -167,7 +185,7 @@ background-color: #fff;
  
 
 .month-container, .year-container{
-    height: 54px;
+    height: 50px;
     border-radius: 5px;   
     font-size: 12px;
 }
