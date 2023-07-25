@@ -128,7 +128,12 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
                     : { color: "black" }
                 }
               >
-                {task_date} at {formatTime(task_time)}
+                {task_date.slice(8, 10) +
+                  "/" +
+                  task_date.slice(5, 7) +
+                  "/" +
+                  task_date.slice(0, 4)}{" "}
+                at {formatTime(task_time)}
               </p>
             </div>
           </div>

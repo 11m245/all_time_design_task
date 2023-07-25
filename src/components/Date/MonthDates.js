@@ -84,7 +84,7 @@ function Day({ day, viewDate, selectedDate }) {
     <div
       style={
         selectedDate?.toLocaleDateString() === day?.toLocaleDateString()
-          ? { backgroundColor: "#4681B6", color: "#fff", borderRadius: "20%" }
+          ? { backgroundColor: "#4681B6", color: "#fff", borderRadius: "50%" }
           : null
       }
       className="day-container"

@@ -91,24 +91,29 @@ export function EditTaskForm({
 
   const handleDeleteTask = async (task) => {
     // console.log("delete task is", task);
-    const deleteTaskUrl = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${task.id}?company_id=${task.company_id}`;
-    const deleteTaskResponse = await fetch(deleteTaskUrl, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    // console.log("delete res", deleteTaskResponse);
-    if (deleteTaskResponse.status === 200) {
-      const data = await deleteTaskResponse.json();
-      // console.log("task deleteed", data);
-      setGetTasks(!getTasks);
-    } else {
-      const data = await deleteTaskResponse.json();
-      // console.log("not deleteed task", data);
-      alert("cant delete task");
+    const confirmResult = window.confirm(
+      "Are you sure you want to delete the task?"
+    );
+    if (confirmResult) {
+      const deleteTaskUrl = `https://stage.api.sloovi.com/task/lead_65b171d46f3945549e3baa997e3fc4c2/${task.id}?company_id=${task.company_id}`;
+      const deleteTaskResponse = await fetch(deleteTaskUrl, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      // console.log("delete res", deleteTaskResponse);
+      if (deleteTaskResponse.status === 200) {
+        const data = await deleteTaskResponse.json();
+        // console.log("task deleteed", data);
+        setGetTasks(!getTasks);
+      } else {
+        const data = await deleteTaskResponse.json();
+        // console.log("not deleteed task", data);
+        alert("cant delete task");
+      }
     }
   };
   const strWithZero = (num) => {
