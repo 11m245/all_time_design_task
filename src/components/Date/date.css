@@ -70,10 +70,10 @@ background-color: #fff;
 }
 
 
-.date-header,
-.month-header,
-.year-header{
-& .title {
+.date-header .title,
+.month-header .title,
+.year-header .title{
+
         color: #484848;
         font-family: Segoe UI;
         font-size: 14px;
@@ -83,13 +83,15 @@ background-color: #fff;
         cursor: pointer;
         padding: 5px 10px;
         border-radius: 4px;
-    }
+  
 
-    & .title:hover{
-    background: #3781b8 !important;
-        color: #fff !important;
-    }
+  
 }
+
+ .date-dropdown-wrapper .title:hover {
+      background: #3781b8 !important;
+      color: #fff !important;
+  }
  
 
 .day-container{
@@ -160,10 +162,15 @@ background-color: #fff;
 }
 
 .date-input-wrapper::-webkit-calendar-picker-indicator {
-   display: none;
+   display: none!important;
+   visibility: hidden!important;
+   opacity: 0!important;
+  
 }
 
-.date-header .title{
+
+
+ .date-dropdown-wrapper .title{
     cursor: pointer;
 }
 
