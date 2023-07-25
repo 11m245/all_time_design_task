@@ -52,6 +52,11 @@
             background-color: #fff;
 } 
 
+button.month-container, button.year-container{
+border: none;
+    background-color: #fff;
+}
+
 
 .date-header,
 .month-header,
