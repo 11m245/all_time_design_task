@@ -5,7 +5,7 @@
     border-radius: 4px;
     border: 1px solid #E3E8EE;
     background: #FFF;
-    padding: 20px;
+    padding: 0 20px;
     position: absolute;
     top: 145px;
     z-index: 2;
@@ -30,11 +30,12 @@
   height: 15px;
   rotate: 45deg;
   position: relative;
-  top: -28px;
+  top: -8px;
   background-color: #fff;
     border-style: solid;
     border-width: 1px 0 0 1px;
     border-color:#E3E8EE ;
+    /* border-color: red; */
 }
 
 .month-arrow{
@@ -132,14 +133,10 @@ background-color: #fff;
     border: 2px solid #4681B6;
 }
 
-.date-input-field-container{
-       
+.date-input-field-container{       
         border-radius: 3px;
-        /* border: 1px solid #E5E5E5; */
-        
         width: 168px;
-        height: 34px;
-        flex-shrink: 0;
+        height: 34px;   
         position: relative;
 }
 .date-input-wrapper {
