@@ -1,5 +1,5 @@
 export function DateHeader(props) {
-  const { viewDate, setViewDate } = props;
+  const { viewDate, setViewDate, showPage, setShowPage } = props;
 
   const months = [
     "January",
@@ -45,10 +45,12 @@ export function DateHeader(props) {
           />
         </svg>
       </button>
-      <div className="month-name">{`${
-        // viewDate.getMonth()
-        months[viewDate.getMonth()]
-      } ${viewDate.getFullYear()} `}</div>
+      <div className="month-name title" onClick={() => setShowPage("month")}>
+        {`${
+          // viewDate.getMonth()
+          months[viewDate.getMonth()]
+        } ${viewDate.getFullYear()} `}{" "}
+      </div>
       <button
         type="button"
         className="month-arrow"

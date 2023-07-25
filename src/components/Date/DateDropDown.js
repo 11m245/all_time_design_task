@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useComponentVisible } from "../CompononentVisible";
-import { DateHeader } from "./DateHeader";
-import { MonthDates } from "./MonthDates";
+
+import { DayPicker } from "./DayPicker";
+import { MonthPicker } from "./MonthPicker";
+import { YearPicker } from "./YearPicker";
 
 function DateDropDown({
   selectedDate,
@@ -13,40 +15,45 @@ function DateDropDown({
   const [viewDate, setViewDate] = useState(selectedDate);
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(showDateDropDown);
+  const [showPage, setShowPage] = useState("date");
 
   return (
     <>
       {isComponentVisible ? (
         <div className="date-dropdown-wrapper" ref={ref}>
-          <DateHeader viewDate={viewDate} setViewDate={setViewDate} />
-          <MonthDates
-            viewDate={viewDate}
-            selectedDate={selectedDate}
-            setViewDate={setViewDate}
-            handleDateChange={(e) => {
-              onChange(e, viewDate.getFullYear(), viewDate.getMonth());
-              // console.log("handle month comp onchange in pop", e);
-              // console.log(
-              //   new Date(
-              //     viewDate.getFullYear(),
-              //     viewDate.getMonth(),
-              //     e.target.innerText
-              //   )
-              // );
-              setSelectedDate(
-                new Date(
-                  viewDate.getFullYear(),
-                  viewDate.getMonth(),
-                  e.target.innerText
-                )
-              );
-
-              if (e.target.className === "day-text") {
-                setShowDateDropDown(false);
-                // console.log("runn");
-              }
-            }}
-          />
+          <div className="style-arrow"></div>
+          {showPage === "date" ? (
+            <DayPicker
+              viewDate={viewDate}
+              setViewDate={setViewDate}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              setShowDateDropDown={setShowDateDropDown}
+              onChange={onChange}
+              setShowPage={setShowPage}
+              showPage={showPage}
+            />
+          ) : null}
+          {showPage === "month" ? (
+            <MonthPicker
+              viewDate={viewDate}
+              setViewDate={setViewDate}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              setShowPage={setShowPage}
+              showPage={showPage}
+            />
+          ) : null}
+          {showPage === "year" ? (
+            <YearPicker
+              viewDate={viewDate}
+              setViewDate={setViewDate}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              setShowPage={setShowPage}
+              showPage={showPage}
+            />
+          ) : null}
         </div>
       ) : null}
     </>

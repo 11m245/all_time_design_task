@@ -11,7 +11,7 @@
     z-index: 2;
 }
 
-.date-dropdown-wrapper::after{
+/* .date-dropdown-wrapper::after{
     border: 8px solid #E3E8EE;
             border-left: solid transparent 8px;
             border-right: solid transparent 8px;
@@ -21,9 +21,20 @@
             height: 0;
             left: 50%;
             margin-left: -13px;
-            position: absolute;
-            /* width: 0; */
+            position: absolute;   
     
+} */
+
+.date-dropdown-wrapper div.style-arrow{
+  width: 15px;
+  height: 15px;
+  rotate: 45deg;
+  position: relative;
+  top: -28px;
+  background-color: #fff;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    border-color:#E3E8EE ;
 }
 
 .month-arrow{
@@ -31,24 +42,34 @@
         height: 16px;
         flex-shrink: 0;
 }
-.date-header{
+.date-header, .month-header, .year-header{
     display: flex;
     justify-content: space-between;
 }
 
-.date-header > button{
-    border: none;
-    background-color: #fff;
-}
+.date-header, .month-header, .year-header {
 
-.month-name{
-    color: #484848;
-    font-family: Segoe UI;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 18px;
+    & button {
+            border: none;
+            background-color: #fff;
+        }
+
+} 
+
+
+.date-header,
+.month-header,
+.year-header{
+& .title {
+        color: #484848;
+        font-family: Segoe UI;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px;
+    }
 }
+ 
 
 .day-container{
     padding-inline: auto;
@@ -123,4 +144,33 @@
 
 .date-input-wrapper::-webkit-calendar-picker-indicator {
    display: none;
+}
+
+.date-header .title{
+    cursor: pointer;
+}
+
+.months-container, .years-container{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 5px;
+    margin-top: 10px;
+ 
+}
+.months-container,.years-container{
+& button {
+        border: none;
+    }
+}
+ 
+
+.month-container, .year-container{
+    height: 54px;
+    border-radius: 5px;   
+    font-size: 12px;
+}
+
+.month-container:hover, .year-container:hover{
+background: #3781b8 !important;
+color: #fff !important;
 }

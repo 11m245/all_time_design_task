@@ -14,6 +14,7 @@ export function SelectOptions(props) {
     <>
       {isComponentVisible ? (
         <div className="select-options-wrapper" ref={ref}>
+          <div className="style-arrow"></div>
           {options.map((user) => (
             <div
               key={user.id}

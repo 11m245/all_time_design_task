@@ -60,7 +60,7 @@ position: relative;
 
 
 
-
+/* 
 .select-options-wrapper::after{
     
             border: 8px solid #E3E8EE;
@@ -73,8 +73,22 @@ position: relative;
             left: 50%;
             margin-left: -13px;
             position: absolute;
-            /* width: 0; */
+           
         
+} */
+
+.select-options-wrapper div.style-arrow {
+    width: 15px;
+    height: 15px;
+    rotate: 45deg;
+    position: relative;
+    top: -8px;
+    left: 20px;
+    background-color: #fff;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    /* border-color: red; */
+    border-color: #E3E8EE;
 }
 .option-wrapper{
     padding: 6px 6px 6px 12px;
