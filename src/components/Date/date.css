@@ -47,13 +47,9 @@
     justify-content: space-between;
 }
 
-.date-header, .month-header, .year-header {
-
-    & button {
-            border: none;
+.date-header  button, .month-header  button, .year-header  button {
+              border: none;
             background-color: #fff;
-        }
-
 } 
 
 
