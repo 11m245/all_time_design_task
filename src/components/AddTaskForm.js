@@ -126,6 +126,7 @@ export function AddTaskForm({
             name="tdes"
             onChange={handleChange}
             value={values.tdes}
+            placeholder="Description of Task"
           ></input>
         </div>
         <div className="inline-field-wrapper">

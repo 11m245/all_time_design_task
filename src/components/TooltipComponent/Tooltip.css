@@ -1,0 +1,31 @@
+.tool-tip-text {
+    display: none;
+}
+
+.tool-tip-component-wrapper {
+    position: relative;
+}
+
+.tool-tip-component-wrapper:hover .tool-tip-text {
+    display: block;
+    font-size: 12px;
+    background-color: #505050;
+    color: #f6f6f6;
+    position: absolute;  
+    bottom: 120%;
+    width: max-content;
+    height: auto;
+    text-align: center;
+    padding: 5px 8px;
+    border-radius: 5px;
+    translate: -50%;
+}
+
+div.tool-tip-arrow {
+    width: 7px;
+    height: 7px;
+    background-color: #505050;
+    rotate: 45deg;
+    position: absolute;
+    left: 50%;
+}
