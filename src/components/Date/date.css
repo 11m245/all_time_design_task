@@ -54,7 +54,7 @@
 
 button.month-container, button.year-container{
 border: none;
-    background-color: #fff;
+background-color: #fff;
 }
 
 
@@ -68,6 +68,7 @@ border: none;
         font-style: normal;
         font-weight: 600;
         line-height: 18px;
+        cursor: pointer;
     }
 }
  
