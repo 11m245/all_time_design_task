@@ -8,7 +8,9 @@ export function SelectHeader(props) {
 
   return (
     <div className="select-header" tabindex="0">
-      <p>{(value && getUserName(value)) || "select user"}</p>
+      <p style={userOptions ? { color: "#767986" } : { color: "#262E39" }}>
+        {(value && getUserName(value)) || "select user"}
+      </p>
       <div className="icon-wrapper">
         {userOptions ? (
           <svg

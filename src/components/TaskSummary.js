@@ -80,6 +80,13 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
     const timeMilliSec = new Date(task_date).getTime() + task_time * 1000;
     return timeMilliSec;
   };
+
+  const getUserString = (assigned_user) => {
+    const foundUser = users.find((user) => user.id === assigned_user);
+    console.log("found user", foundUser);
+    const userWords = foundUser?.name.split(" ");
+    return foundUser ? `${userWords[0][0]}${userWords[1][0]}` : null;
+  };
   return (
     <>
       {isEdit ? (
@@ -94,7 +101,13 @@ function TaskSummary({ task, users, getTasks, setGetTasks }) {
       ) : (
         <div className="task-summary-wrapper">
           <div className="left">
-            <div className="color-icon"></div>
+            {getUserString(assigned_user) ? (
+              <div className="user-name-wrapper">
+                <p>{getUserString(assigned_user)}</p>
+              </div>
+            ) : (
+              <div className="color-icon"></div>
+            )}
             <div className="summary">
               <p
                 className="task-title"

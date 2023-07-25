@@ -166,6 +166,7 @@ justify-content: space-between;
 align-items: center;
 padding: 14px;
 border-bottom: 1px solid #E5E5E5;
+background-color: #fff;
 }
 
 .task-summary-wrapper .color-icon{
@@ -174,6 +175,28 @@ border-bottom: 1px solid #E5E5E5;
   border-radius: 50%;
   background-color: #5A99E3;
 
+}
+
+.user-name-wrapper{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #eaecef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+        box-sizing: border-box;
+        border-radius: 50%;
+        /* border: 1px solid rgba(0, 0, 0, 0.1);   */
+      font-weight: 500;
+
+}
+
+.user-name-wrapper p {
+
+  font-weight: 500;
+  font-style: normal;
+  color: #262E39;
 }
 
 .task-summary-wrapper .task-title{
@@ -291,8 +314,10 @@ flex-basis: 50%;
     font-weight: 400;
     line-height: 16px;
     border: none;
+    }
+.cancel-button:hover{
+  text-decoration: underline;
 }
-
 .save-button{
   cursor: pointer;
   width: 80px;
@@ -355,8 +380,8 @@ button:hover{
   top: -25px;
   left: -55px;
   z-index: 5;
-  background-color: #000;
-  color: #fff;
+  background-color: #505050;
+  color: #f6f6f6;
   text-align: center;
   /* padding: 4px; */
   padding:4px 5px;
@@ -370,7 +395,7 @@ button.add-icon.tooltip:hover span {
 .tooltip span::after {
   border-left: solid transparent 8px;
     border-right: solid transparent 8px;
-    border-top: solid #000 8px;    
+    border-top: solid #505050 8px;    
     content: " ";
     height: 0;
     left: 80%;
