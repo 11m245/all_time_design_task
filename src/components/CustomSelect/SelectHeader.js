@@ -1,5 +1,11 @@
 export function SelectHeader(props) {
-  const { value, users, userOptions } = props;
+  const {
+    value,
+    users,
+    isComponentVisible,
+    setIsComponentVisible,
+    handleSearchChange,
+  } = props;
 
   const getUserName = (id) => {
     const matchedUser = users.find((user) => user.id === id);
@@ -7,12 +13,32 @@ export function SelectHeader(props) {
   };
 
   return (
-    <div className="select-header" tabindex="0">
-      <p style={userOptions ? { color: "#767986" } : { color: "#262E39" }}>
+    <div
+      className="select-header"
+      tabindex="0"
+      // onClick={setIsComponentVisible(false)}
+    >
+      {/* <p
+        style={isComponentVisible ? { color: "#767986" } : { color: "#262E39" }}
+      >
         {(value && getUserName(value)) || "select user"}
-      </p>
+      </p> */}
+
+      <input
+        className="search-input"
+        style={isComponentVisible ? { color: "#767986" } : { color: "#262E39" }}
+        type="text"
+        placeholder={"search user"}
+        value={
+          isComponentVisible
+            ? null
+            : (value && getUserName(value)) || "select user"
+        }
+        onChange={handleSearchChange}
+      />
+
       <div className="icon-wrapper">
-        {userOptions ? (
+        {isComponentVisible ? (
           <svg
             version="1.1"
             id="Layer_1"

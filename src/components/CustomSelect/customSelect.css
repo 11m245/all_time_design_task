@@ -3,7 +3,7 @@ position: relative;
 }
 
 .custom-select-wrapper .select-header{
-    padding: 8px 7px 7px 11px;
+    /* padding: 8px 7px 7px 11px; */
     width: 345px;
     height: 31px;
     flex-shrink: 0;
@@ -99,7 +99,7 @@ position: relative;
     width: 343px;
         height: 28px;
         background: #F7FAFC;
-          
+    cursor: pointer;
        
 }
 
@@ -107,4 +107,8 @@ position: relative;
     width: 16px;
     height: 16px;
     flex-shrink: 0;
+}
+
+.select-header .search-input{
+    width: 100%;
 }

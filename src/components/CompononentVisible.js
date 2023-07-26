@@ -10,6 +10,8 @@ function useComponentVisible(initialIsVisible) {
       setIsComponentVisible(false);
       // alert("click outside");
       // console.log(ref.current, event.target);
+    } else {
+      // alert("inside click");
     }
   };
 
